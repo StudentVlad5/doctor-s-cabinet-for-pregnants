@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" fill="none">
+    <path fill="url(#a)" d="M0 0h40v40H0z" />
+    <defs>
+        <pattern id="a" width="1" height="1" patternContentUnits="objectBoundingBox">
+            <use xlink:href="#b" transform="scale(.0137)" />
+        </pattern>
+        <image
+            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAABJCAMAAABGrfvuAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGMUExURQAAAP///////7+/v8zMzNXV1dvb27+/v8bGxszMzNHR0dXV1cTExMzMzM/Pz9LS0snJyczMzM7OztHR0crKyszMzM7Ozs/Pz9HR0cvLy8zMzM3Nzc3Nzc7Ozs7OzszMzM3Nzc7Ozs/Pz83Nzc7Ozs7OzsvLy8zMzM7Ozs3Nzc3NzcvLy83Nzc7Ozs3Nzc7Ozs3Nzc7Ozs7OzszMzM3Nzc7OzszMzMzMzM3Nzc7Ozs7OzszMzMzMzM3Nzc3Nzc7OzszMzM3Nzc3Nzc3NzczMzM3Nzc3Nzc7Ozs3Nzc3Nzc3NzczMzMzMzM3Nzc3Nzc7Ozs3Nzc3Nzc3Nzc7OzszMzM3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc7Ozs3Nzc7Ozs3Nzc7Ozs3Nzc3Nzc3Nzc3Nzc7Ozs3Nzc3Nzc3Nzc3NzczMzM3Nzc3NzczMzM3NzczMzM3NzczMzM3Nzc3NzczMzM3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3NzRktofQAAACDdFJOUwABAgQFBgcICQoLDA0PEBETFBUWGB4fICEiIyQuLzQ3ODk6PT4/QEFER0hKTU5SVFtdXl9maGlqa21yeH1/gIGIiouPkpOVlpiZmpyho6Slp6ipqqusra6vsbK1trq+v8LFxsjJysvNzs/R09TW2d3e3+Hj5ebn6evs7/T19vj5+vz+C+7k4gAAAAlwSFlzAAAXEQAAFxEByibzPwAAAitJREFUWEft2OdTE0EYBvDlAMHEKE0EbICKFLEQQBQVAcECAlIVbBhbaDYiXdD3H/fm7rkSsru3ezijztzv0+bN8z6TwEEyx/4vsXhMIB5DREXNwFJGbHWmGLlAzZskN4tgkOptM7y3y7dnVT1ENMAjoq+tVSf46netqtvIShV8IWrGOVf5D6uJ2vFYJm6+uRKccx1HE13CQKYn05+HYy63aecsJjKyC8ZtorWTGIXkNdFKKWbh+Jpo/hCG2U61XhYoZYa3UmlfULYZDP3Oz+NJjkZmDJ1GjiWyrv9BTD0tP/EUTwNjqdUKJNkwprYOTB0lG3iCy2yao3QC2bIFjC3PMHV0Yc5nNj0nel2E8JFbrz68t3wmmsLQ8Rg7fHYTzRlIu64STeLomLZXBNBEY0i72nKbJq0NEaeJHiDuSIZuorvIwwGaqBsLNu2mC4y9wDH7+gnzmrxfSafvH452k/k6Kju6rltutBdix6TdtFyA2H7aTTTr/tFl02+i9ZG+3j64431shmjy+3UMSwduWj+KpahJKmpSEzWpiZrURE1qoiY1vibz2+H+b6whm679sdc0StSPo0O3yThTX1d7cdB8dA4NDs0mYwJneoICl2ZT0Q7OTw+jwKX77pJv0x/T78avYN0n5E+c419smkJKxYa06T5SKj7lY4mrBSkV8pszeS8RC7ZVjR2B8hSCQTabsCFUePPNt++45yW2eK8Geali4Z050LpB99cx9hsqv3cs1280tQAAAABJRU5ErkJggg=="
+            id="b" width="73" height="73" />
+    </defs>
+</svg>
