@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "types": ["@types/babel__core"]
   },
   "include": ["src"]
 }
