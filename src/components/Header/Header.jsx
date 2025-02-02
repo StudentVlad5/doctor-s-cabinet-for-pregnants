@@ -3,7 +3,7 @@ import {
   Link,
   Headline,
   HeaderSection,
-  HeadLogo
+  HeadLogo,
 } from './Header.styled';
 import logo from 'images/logo.png';
 
@@ -12,14 +12,12 @@ export const Header = () => {
     <HeaderSection>
       <HeaderContainer>
         <Link to="/">
-          <HeadLogo
-            src={logo}
-            aria-label="Logo"
-            loading="lazy"
-          />
+          <HeadLogo src={logo} aria-label="Logo" loading="lazy" />
         </Link>
-        <Headline>SOS Emergency Connection
-        <br/>Алгоритм оказания помощи при инсульте в остром периоде
+        <Headline>
+          SOS Emergency Connection
+          <br />
+          Алгоритм оказания помощи <br /> при преэклампсии и эклампсии
         </Headline>
       </HeaderContainer>
     </HeaderSection>

@@ -12,7 +12,6 @@ const ActiveListItemsContainer = styled(Container)`
   justify-content: start;
   align-items: start;
   width: 100%;
-  /* min-height: 100vh; */
   padding: 10px 23px;
 `;
 const ControlContainer = styled.div`

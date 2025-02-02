@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { theme } from 'components/baseStyles/Variables.styled';
-import { Container } from 'components/baseStyles/CommonStyle.styled';
+import styled from "styled-components";
+import { theme } from "components/baseStyles/Variables.styled";
+import { Container } from "components/baseStyles/CommonStyle.styled";
 
 const AuthorizationSection = styled.section`
   display: flex;
@@ -12,7 +12,7 @@ const AuthorizationContainer = styled(Container)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
+  min-height: 80vh;
   padding: 10px;
 `;
 const AuthorizationFormItem = styled.form`

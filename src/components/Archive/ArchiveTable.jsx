@@ -3,10 +3,7 @@ import { utils as XLSXUtils, writeFile as writeXLSX } from 'xlsx';
 import moment from 'moment';
 import { fetchData } from 'services/APIservice';
 import { PaginationBlock } from 'helpers/Pagination/Pagination';
-import {
-  getFromStorage,
-  // saveToStorage
-} from 'services/localStorService';
+import { getFromStorage } from 'services/localStorService';
 import { onLoading, onLoaded } from 'helpers/Loader/Loader';
 import { onFetchError } from 'helpers/Messages/NotifyMessages';
 import {
@@ -31,7 +28,7 @@ const initialState = {
   filterBrigadeSMP: '',
   filterPatientINN: '',
   filterPatientFIO: '',
-  filterHospital: '',
+  filterPlaceState: '',
   filterEmployeeID: '',
   filterStatusChecklist: '',
   filterDateStartChecklist: '',
@@ -53,8 +50,8 @@ export const ArchiveTable = () => {
     (async function getData() {
       setIsLoading(true);
       try {
-        const { data } = await fetchData('read?identifier=old');
-        // // &checkStatus="Архивный"
+        // const { data } = await fetchData('read?identifier=old');
+        const { data } = await fetchData('read?identifier=*');
         if (!data) {
           return onFetchError('Whoops, something went wrong');
         }
@@ -90,8 +87,8 @@ export const ArchiveTable = () => {
           if (!it.checkStatus) {
             it.checkStatus = '';
           }
-          if (!it.numberHospital) {
-            it.numberHospital = '';
+          if (!it.placeState) {
+            it.placeState = '';
           }
           if (!it.startTimeAutoHh) {
             it.startTimeAutoHh = '';
@@ -103,9 +100,6 @@ export const ArchiveTable = () => {
         setUniqueChecklists(uniqueIdentifiers);
         setChecklists(unique);
         setFilterChecklists(unique);
-
-        // saveToStorage('filters', filters);
-        // getActiveInput();
       } catch (error) {
         setError(error);
       } finally {
@@ -123,61 +117,62 @@ export const ArchiveTable = () => {
       [name]: value,
     };
     setFilters(selectedFilters);
-    // saveToStorage('filters', selectedFilters);
     document.querySelector(`button[id='${name}']`).classList.add('active');
   };
 
   const startFilterChecklists = e => {
     e.preventDefault();
-    const peremOfFilter = [];
-    // eslint-disable-next-line array-callback-return
-    checklists.map(item => {
-      const time = [];
-      time.push(item.startTimeAutoHh, item.startTimeAutoMm);
-      if (
-        item.identifier
-          .toString()
-          .toLowerCase()
-          .includes(filters['filterChecklist']) &&
-        item.application_number
-          ?.split('/')
-          .join('')
-          .includes(filters['filterBrigadeSMP']) &&
-        item.patientINN
-          ?.split('')
-          .join('')
-          .includes(filters['filterPatientINN']) &&
-        item.patientFullName
-          ?.split('')
-          .join('')
-          .toLowerCase()
-          .includes(filters['filterPatientFIO']) &&
-        item.numberHospital // при появлении параметров раскоммитить
-          ?.toString()
-          .toLowerCase()
-          .includes(filters['filterHospital']) &&
-        item.employeeID
-          ?.split('')
-          .join('')
-          .includes(filters['filterEmployeeID']) &&
-        item.checkStatus
-          ?.toString()
-          .toLowerCase()
-          .includes(filters['filterStatusChecklist']) &&
-        moment(new Date(+item.identifier))
-          .zone("+06:00")
-          .format('DD.MM.YYYY')
-          .includes(filters['filterDateStartChecklist']) &&
-        time?.join('').includes(filters['filterTimeStartChecklist'])
-        &&
-        item.timeStartToEndHospitality
-          ?.toString()
-          .toLowerCase()
-          .includes(filters['filterDurationOfHospitalization'])
-      ) {
-        peremOfFilter.push(item);
-      }
-    });
+    let peremOfFilter = [];
+    peremOfFilter = checklists
+      .map(item => {
+        const time = [];
+        time.push(item.startTimeAutoHh, item.startTimeAutoMm);
+
+        if (
+          item.identifier
+            .toString()
+            .toLowerCase()
+            .includes(filters['filterChecklist']) &&
+          item.application_number
+            ?.split('/')
+            .join('')
+            .includes(filters['filterBrigadeSMP']) &&
+          item.patientINN
+            ?.split('')
+            .join('')
+            .includes(filters['filterPatientINN']) &&
+          item.patientFullName
+            ?.split('')
+            .join('')
+            .toLowerCase()
+            .includes(filters['filterPatientFIO']) &&
+          item.placeState 
+            ?.toString()
+            .toLowerCase()
+            .includes(filters['filterPlaceState']) &&
+          item.employeeID
+            ?.split('')
+            .join('')
+            .includes(filters['filterEmployeeID']) &&
+          // item.checkStatus
+          //   ?.toString()
+          //   .toLowerCase()
+          //   .includes(filters['filterStatusChecklist']) &&
+          moment(new Date(+item.identifier))
+            .zone('+06:00')
+            .format('DD.MM.YYYY')
+            .includes(filters['filterDateStartChecklist'])
+          // time?.join('').includes(filters['filterTimeStartChecklist']) &&
+          // item.timeStartToEndHospitality
+          //   ?.toString()
+          //   .toLowerCase()
+          //   .includes(filters['filterDurationOfHospitalization'])
+        ) {
+          return item; 
+        }
+        return null; 
+      })
+      .filter(item => item !== null);
     setCurrent(1);
     setFilterChecklists(peremOfFilter);
   };
@@ -211,19 +206,30 @@ export const ArchiveTable = () => {
 
   const handleDownloadExcel = () => {
     const dataForExcel = filterChecklists.map(checklist => ({
-      'Чек-лист': checklist?.identifier ? checklist.identifier: '',
-      '№ Бригады СМП': checklist?.application_number ? checklist?.application_number : '',
+      'Чек-лист': checklist?.identifier ? checklist.identifier : '',
+      '№ Бригады СМП': checklist?.application_number
+        ? checklist?.application_number
+        : '',
       'ИИН пациента': checklist?.patientINN ? checklist?.patientINN : '',
-      'ФИО пациента': checklist?.patientFullName ? checklist?.patientFullName : '',
-      'Поликлиника прикрепления': checklist?.numberHospital ? checklist?.numberHospital : '',
-      'Идентификатор сотрудника': checklist?.employeeID ? checklist?.employeeID : '',
+      'ФИО пациента': checklist?.patientFullName
+        ? checklist?.patientFullName
+        : '',
+      'Место размещения': checklist?.placeState ? checklist?.placeState : '',
+      'Идентификатор сотрудника': checklist?.employeeID
+        ? checklist?.employeeID
+        : '',
       'Статус чек-листа': checklist?.checkStatus ? checklist?.checkStatus : '',
-      'Дата Чек-листа': checklist?.identifier ? moment(new Date(+checklist?.identifier)).zone("+06:00").format(
-        'DD.MM.YYYY'
-      ) : '',
-      'Время начала чек-листа': `${checklist.startTimeAutoHh}:${checklist.startTimeAutoMm}`,
-      ' Время от времени до госпитализации (от двери до иглы)': `${
-        checklist?.timeStartToEndHospitality ? checklist?.timeStartToEndHospitality : ''}`
+      'Дата Чек-листа': checklist?.identifier
+        ? moment(new Date(+checklist?.identifier))
+            .zone('+06:00')
+            .format('DD.MM.YYYY')
+        : '',
+      // 'Время начала чек-листа': `${checklist.startTimeAutoHh}:${checklist.startTimeAutoMm}`,
+      // ' Время от времени до госпитализации (от двери до иглы)': `${
+      //   checklist?.timeStartToEndHospitality
+      //     ? checklist?.timeStartToEndHospitality
+      //     : ''
+      // }`,
     }));
 
     const ws = XLSXUtils.json_to_sheet(dataForExcel);
@@ -355,15 +361,15 @@ export const ArchiveTable = () => {
               </span>
               <input
                 type="text"
-                name="filterHospital"
+                name="filterPlaceState"
                 placeholder=""
-                value={filters['filterHospital']}
+                value={filters['filterPlaceState']}
                 onKeyDown={e => handleSearchOnEnter(e)}
                 onChange={e => handleChangeFilter(e)}
               />
               <BtnFilter
                 type="button"
-                id="filterHospital"
+                id="filterPlaceState"
                 onClick={e => {
                   toggleFilterItem(e);
                 }}
@@ -440,7 +446,7 @@ export const ArchiveTable = () => {
                 <FaFilter />
               </BtnFilter>
             </TableHead>
-            <TableHead>
+            {/* <TableHead>
               <span>
                 Время начала
                 <br />
@@ -487,7 +493,7 @@ export const ArchiveTable = () => {
               >
                 <FaFilter />
               </BtnFilter>
-            </TableHead>
+            </TableHead> */}
           </TableRow>
         </TableFilter>
         <tbody>
@@ -505,22 +511,32 @@ export const ArchiveTable = () => {
                   <TableData>{item.application_number}</TableData>
                   <TableData>{item.patientINN}</TableData>
                   <TableData>{item.patientFullName}</TableData>
-                  <TableData>{item.numberHospital}</TableData>
+                  <TableData>{item.placeState}</TableData>
                   <TableData>{item.employeeID}</TableData>
                   <TableData>{item.checkStatus}</TableData>
                   <TableData>
-                    {moment(new Date(+item?.identifier)).zone("+06:00").format('DD.MM.YYYY')}
+                    {moment(new Date(+item?.identifier))
+                      .zone('+06:00')
+                      .format('DD.MM.YYYY')}
                   </TableData>
-                  {item.startTimeAutoHh && item.startTimeAutoMm ? (
+                  {/* {item.startTimeAutoHh && item.startTimeAutoMm ? (
                     <TableData>
-                      {item.startTimeAutoHh.length < 2 ? "0" + item.startTimeAutoHh : item.startTimeAutoHh}:{item.startTimeAutoMm.length < 2 ? "0" + item.startTimeAutoMm : item.startTimeAutoMm}
+                      {item.startTimeAutoHh.length < 2
+                        ? '0' + item.startTimeAutoHh
+                        : item.startTimeAutoHh}
+                      :
+                      {item.startTimeAutoMm.length < 2
+                        ? '0' + item.startTimeAutoMm
+                        : item.startTimeAutoMm}
                     </TableData>
                   ) : (
                     <TableData></TableData>
                   )}
                   <TableData>
-                    {item?.timeStartToEndHospitality ? item?.timeStartToEndHospitality : "-"} 
-                  </TableData>
+                    {item?.timeStartToEndHospitality
+                      ? item?.timeStartToEndHospitality
+                      : '-'}
+                  </TableData> */}
                 </TableRow>
               ))}
         </tbody>

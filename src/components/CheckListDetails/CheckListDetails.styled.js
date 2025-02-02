@@ -2,7 +2,8 @@ import { theme } from "components/baseStyles/Variables.styled";
 import styled from "styled-components";
 import { ReactComponent as copyIcon } from "images/svg/copy.svg";
 import { ReactComponent as wordIcon } from "images/svg/word.svg";
-import { ReactComponent as checkIcon } from "images/svg/vertical_line.svg";
+import { ReactComponent as closeIcon } from "images/svg/close.svg";
+import { ReactComponent as checkIcon } from "images/svg/check.svg";
 import { Link } from "react-router-dom";
 
 export const CheckListBox = styled.div`
@@ -411,6 +412,15 @@ export const StylesCheckBoxItem = styled.div`
   cursor: pointer;
 `;
 export const CheckIcon = styled(checkIcon)`
+  /* fill: red; */
+  width: 36px;
+  height: 36px;
+  opacity: ${(props) => props.$props};
+  fill: ${(props) => props.$fill};
+  user-select: none;
+  stroke: ${(props) => props.$fill};
+`;
+export const CloseIcon = styled(closeIcon)`
   /* fill: red; */
   width: 36px;
   height: 36px;
