@@ -50,8 +50,7 @@ export const ActiveListItems = () => {
     const getData = async () => {
       setIsLoading(true);
       try {
-        const { data } = await fetchData('read?identifier=*');
-        // const { data } = await fetchData('read?checkStatus=Активный');
+        const { data } = await fetchData('read?identifier=new');
         if (!data) {
           return onFetchError('Whoops, something went wrong');
         }

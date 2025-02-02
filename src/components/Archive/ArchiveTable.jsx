@@ -32,8 +32,6 @@ const initialState = {
   filterEmployeeID: '',
   filterStatusChecklist: '',
   filterDateStartChecklist: '',
-  filterTimeStartChecklist: '',
-  filterDurationOfHospitalization: '',
 };
 
 export const ArchiveTable = () => {
@@ -50,8 +48,7 @@ export const ArchiveTable = () => {
     (async function getData() {
       setIsLoading(true);
       try {
-        // const { data } = await fetchData('read?identifier=old');
-        const { data } = await fetchData('read?identifier=*');
+        const { data } = await fetchData('read?identifier=old');
         if (!data) {
           return onFetchError('Whoops, something went wrong');
         }
