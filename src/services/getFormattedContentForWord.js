@@ -9,11 +9,6 @@ import {
 } from "helpers/constants";
 import moment from "moment";
 
-const formatTime = (hh, mm) => {
-  if (!hh || !mm) return "-";
-  return `${hh.padStart(2, "0")}:${mm.padStart(2, "0")}`;
-};
-
 export const getFormattedContentForWord = (data) => {
   let htmlContent = "";
 
@@ -25,8 +20,6 @@ export const getFormattedContentForWord = (data) => {
     .zone("+06:00")
     .format("DD/MM/YYYY")}</p>`;
   htmlContent += `<p><strong>Бригада №:</strong> ${data?.application_number}</p>`;
-  htmlContent += `<p><strong>Предполагаемое время прибытия в больницу:</strong> ${data?.deliveryTimeHh}:${data?.deliveryTimeMm}</p>`;
-  htmlContent += `<p><strong>Номер телефона:</strong> ${data?.numberPhone}</p>`;
 
   // Personal Data Section
   htmlContent += "<h3>Личные данные пациента:</h3>";
@@ -124,14 +117,16 @@ export const getFormattedContentForWord = (data) => {
   htmlContent += `<p><strong>№ бригады СМП:</strong> ${
     data?.application_number || "нет информации"
   }</p>`;
-  htmlContent += `<p><strong>Заполнение чек-листа начато:</strong> ${formatTime(
-    data?.startTimeAutoHh,
-    data?.startTimeAutoMm
-  )}</p>`;
-  htmlContent += `<p><strong>Заполнение чек-листа завершено:</strong> ${formatTime(
-    data?.endTimeAutoHh,
-    data?.endTimeAutoMm
-  )}</p>`;
+  htmlContent += `<p><strong>Заполнение чек-листа начато:</strong> ${moment(
+    new Date(+data?.identifier)
+  )
+    .zone("+06:00")
+    .format("DD.MM.YYYY")}</p>`;
+  htmlContent += `<p><strong>Заполнение чек-листа завершено:</strong> ${moment(
+    new Date(+data?.identifier)
+  )
+    .zone("+06:00")
+    .format("DD.MM.YYYY")}</p>`;
 
   return htmlContent;
 };

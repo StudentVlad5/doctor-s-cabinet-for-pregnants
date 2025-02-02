@@ -154,19 +154,10 @@ export const ArchiveTable = () => {
             ?.split('')
             .join('')
             .includes(filters['filterEmployeeID']) &&
-          // item.checkStatus
-          //   ?.toString()
-          //   .toLowerCase()
-          //   .includes(filters['filterStatusChecklist']) &&
           moment(new Date(+item.identifier))
             .zone('+06:00')
             .format('DD.MM.YYYY')
             .includes(filters['filterDateStartChecklist'])
-          // time?.join('').includes(filters['filterTimeStartChecklist']) &&
-          // item.timeStartToEndHospitality
-          //   ?.toString()
-          //   .toLowerCase()
-          //   .includes(filters['filterDurationOfHospitalization'])
         ) {
           return item; 
         }
@@ -224,12 +215,6 @@ export const ArchiveTable = () => {
             .zone('+06:00')
             .format('DD.MM.YYYY')
         : '',
-      // 'Время начала чек-листа': `${checklist.startTimeAutoHh}:${checklist.startTimeAutoMm}`,
-      // ' Время от времени до госпитализации (от двери до иглы)': `${
-      //   checklist?.timeStartToEndHospitality
-      //     ? checklist?.timeStartToEndHospitality
-      //     : ''
-      // }`,
     }));
 
     const ws = XLSXUtils.json_to_sheet(dataForExcel);
@@ -356,8 +341,8 @@ export const ArchiveTable = () => {
             </TableHead>
             <TableHead>
               <span>
-                Поликлиника <br />
-                прикрепления
+                Место <br />
+                размещения
               </span>
               <input
                 type="text"
@@ -446,54 +431,6 @@ export const ArchiveTable = () => {
                 <FaFilter />
               </BtnFilter>
             </TableHead>
-            {/* <TableHead>
-              <span>
-                Время начала
-                <br />
-                чек-листа
-              </span>
-              <input
-                type="text"
-                name="filterTimeStartChecklist"
-                placeholder=""
-                value={filters['filterTimeStartChecklist']}
-                onKeyDown={e => handleSearchOnEnter(e)}
-                onChange={e => handleChangeFilter(e)}
-              />
-              <BtnFilter
-                type="button"
-                id="filterTimeStartChecklist"
-                onClick={e => {
-                  toggleFilterItem(e);
-                }}
-              >
-                <FaFilter />
-              </BtnFilter>
-            </TableHead>
-            <TableHead>
-              <span>
-                Время от прибытия пациента <br />
-                до госпитализации <br />
-                (от двери до иглы)
-              </span>
-              <input
-                type="text"
-                name="filterDurationOfHospitalization"
-                placeholder=""
-                value={filters['filterDurationOfHospitalization']}
-                onKeyDown={e => handleSearchOnEnter(e)}
-                onChange={e => handleChangeFilter(e)}
-              />
-              <BtnFilter
-                type="button"
-                id="filterDurationOfHospitalization"
-                onClick={e => {
-                  toggleFilterItem(e);
-                }}
-              >
-                <FaFilter />
-              </BtnFilter>
-            </TableHead> */}
           </TableRow>
         </TableFilter>
         <tbody>
@@ -519,24 +456,6 @@ export const ArchiveTable = () => {
                       .zone('+06:00')
                       .format('DD.MM.YYYY')}
                   </TableData>
-                  {/* {item.startTimeAutoHh && item.startTimeAutoMm ? (
-                    <TableData>
-                      {item.startTimeAutoHh.length < 2
-                        ? '0' + item.startTimeAutoHh
-                        : item.startTimeAutoHh}
-                      :
-                      {item.startTimeAutoMm.length < 2
-                        ? '0' + item.startTimeAutoMm
-                        : item.startTimeAutoMm}
-                    </TableData>
-                  ) : (
-                    <TableData></TableData>
-                  )}
-                  <TableData>
-                    {item?.timeStartToEndHospitality
-                      ? item?.timeStartToEndHospitality
-                      : '-'}
-                  </TableData> */}
                 </TableRow>
               ))}
         </tbody>

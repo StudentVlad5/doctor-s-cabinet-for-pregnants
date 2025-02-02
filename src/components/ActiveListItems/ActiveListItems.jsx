@@ -26,6 +26,15 @@ import { fetchData } from 'services/APIservice';
 import { onFetchError } from 'helpers/Messages/NotifyMessages';
 import { onLoaded, onLoading } from 'helpers/Loader/Loader';
 import sound from '../../mp3/spokoynyiy-zvuk-poyavleniya-v-sisteme.mp3';
+import {
+  personalData,
+  paritet,
+  actionsOfMedicalPersonnel,
+  dischargesFromTheGenitalTract,
+  preventionOfConvulsions,
+  hypotensiveTreatment,
+  evaluationOfTheConditionOfTheFetus,
+} from 'helpers/constants';
 
 export const ActiveListItems = () => {
   const [checklists, setChecklists] = useState([]);
@@ -41,8 +50,8 @@ export const ActiveListItems = () => {
     const getData = async () => {
       setIsLoading(true);
       try {
-        // const { data } = await fetchData('read?identifier=new');
         const { data } = await fetchData('read?identifier=*');
+        // const { data } = await fetchData('read?checkStatus=Активный');
         if (!data) {
           return onFetchError('Whoops, something went wrong');
         }
@@ -103,6 +112,23 @@ export const ActiveListItems = () => {
     }
   }, [playStatus]);
 
+  const checkStatusCircle = (item, listOfItem) => {
+    let perem = false;
+    Object.keys(listOfItem).map(it => {
+      if (item[it] && item[it] !== '') perem = true;
+      return null;
+    });
+    return perem ? theme.colors.darkGreen : theme.colors.white;
+  };
+  const checkStatusLine = (item, listOfItem) => {
+    let perem = false;
+    Object.keys(listOfItem).map(it => {
+      if (item[it] && item[it] !== '') perem = true;
+      return null;
+    });
+    return perem ? theme.colors.linesBlue : theme.colors.darkGrey;
+  };
+
   return (
     <ActiveListItemsSection>
       <ActiveListItemsContainer>
@@ -162,22 +188,6 @@ export const ActiveListItems = () => {
                         <br />
                         Бригада №{item?.application_number}
                       </p>
-                      <p>
-                        <br />
-                        Время прибытия в больницу <br />
-                        {item?.deliveryTimeHh && item?.deliveryTimeHh.length < 2
-                          ? '0' + item?.deliveryTimeHh
-                          : item?.deliveryTimeHh}{' '}
-                        :{' '}
-                        {item?.deliveryTimeMm && item?.deliveryTimeMm.length < 2
-                          ? '0' + item?.deliveryTimeMm
-                          : item?.deliveryTimeMm}
-                      </p>
-                      <p>
-                        <br />
-                        Номер телефона: <br />
-                        {item?.numberPhone}
-                      </p>
                       <BtnWrap>
                         <Link
                           style={{ textDecoration: 'none' }}
@@ -191,366 +201,89 @@ export const ActiveListItems = () => {
                     </ItemInfo>
                     <ItemStatistic>
                       <ItemCircle
-                        $props={
-                          (item?.patientFullName &&
-                            item?.patientFullName !== '') ||
-                          (item?.patientINN && item?.patientINN !== '') ||
-                          (item?.visualDescription &&
-                            item?.visualDescription !== '') ||
-                          (item?.saggingFace && item?.saggingFace !== '') ||
-                          (item?.handDisplacement &&
-                            item?.handDisplacement !== '') ||
-                          (item?.speechDisorders &&
-                            item?.speechDisorders !== '') ||
-                          (item?.firstSymptomsTimeHh &&
-                            item?.firstSymptomsTimeHh !== '') ||
-                          (item?.firstSymptomsTimeMm &&
-                            item?.firstSymptomsTimeMm !== '') ||
-                          (item?.bloodSugarLevel &&
-                            item?.bloodSugarLevel !== '') ||
-                          (item?.bodyTemperature &&
-                            item?.bodyTemperature !== '') ||
-                          (item?.arterialPressureD &&
-                            item?.arterialPressureD !== '') ||
-                          (item?.arterialPressureS &&
-                            item?.arterialPressureS !== '') ||
-                          (item?.patientBodyWeight &&
-                            item?.patientBodyWeight !== '') ||
-                          (item?.patientAge && item?.patientAge !== '') ||
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.darkGreen
-                            : theme.colors.white
-                        }
+                        $props={checkStatusCircle(item, {
+                          ...personalData,
+                          ...paritet,
+                          ...actionsOfMedicalPersonnel,
+                          ...dischargesFromTheGenitalTract,
+                          ...preventionOfConvulsions,
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemCircle>
                       <ItemLine
-                        $props={
-                          (item?.patientFullName &&
-                            item?.patientFullName !== '') ||
-                          (item?.patientINN && item?.patientINN !== '') ||
-                          (item?.visualDescription &&
-                            item?.visualDescription !== '') ||
-                          (item?.saggingFace && item?.saggingFace !== '') ||
-                          (item?.handDisplacement &&
-                            item?.handDisplacement !== '') ||
-                          (item?.speechDisorders &&
-                            item?.speechDisorders !== '') ||
-                          (item?.firstSymptomsTimeHh &&
-                            item?.firstSymptomsTimeHh !== '') ||
-                          (item?.firstSymptomsTimeMm &&
-                            item?.firstSymptomsTimeMm !== '') ||
-                          (item?.bloodSugarLevel &&
-                            item?.bloodSugarLevel !== '') ||
-                          (item?.bodyTemperature &&
-                            item?.bodyTemperature !== '') ||
-                          (item?.arterialPressureD &&
-                            item?.arterialPressureD !== '') ||
-                          (item?.arterialPressureS &&
-                            item?.arterialPressureS !== '') ||
-                          (item?.patientBodyWeight &&
-                            item?.patientBodyWeight !== '') ||
-                          (item?.patientAge && item?.patientAge !== '') ||
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.linesBlue
-                            : theme.colors.darkGrey
-                        }
+                        $props={checkStatusLine(item, {
+                          ...paritet,
+                          ...actionsOfMedicalPersonnel,
+                          ...dischargesFromTheGenitalTract,
+                          ...preventionOfConvulsions,
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemLine>
                       <ItemCircle
-                        $props={
-                          (item?.saggingFace && item?.saggingFace !== '') ||
-                          (item?.handDisplacement &&
-                            item?.handDisplacement !== '') ||
-                          (item?.speechDisorders &&
-                            item?.speechDisorders !== '') ||
-                          (item?.firstSymptomsTimeHh &&
-                            item?.firstSymptomsTimeHh !== '') ||
-                          (item?.firstSymptomsTimeMm &&
-                            item?.firstSymptomsTimeMm !== '') ||
-                          (item?.bloodSugarLevel &&
-                            item?.bloodSugarLevel !== '') ||
-                          (item?.bodyTemperature &&
-                            item?.bodyTemperature !== '') ||
-                          (item?.arterialPressureD &&
-                            item?.arterialPressureD !== '') ||
-                          (item?.arterialPressureS &&
-                            item?.arterialPressureS !== '') ||
-                          (item?.patientBodyWeight &&
-                            item?.patientBodyWeight !== '') ||
-                          (item?.patientAge && item?.patientAge !== '') ||
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.darkGreen
-                            : theme.colors.white
-                        }
+                        $props={checkStatusCircle(item, {
+                          ...paritet,
+                          ...actionsOfMedicalPersonnel,
+                          ...dischargesFromTheGenitalTract,
+                          ...preventionOfConvulsions,
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemCircle>
                       <ItemLine
-                        $props={
-                          (item?.saggingFace && item?.saggingFace !== '') ||
-                          (item?.handDisplacement &&
-                            item?.handDisplacement !== '') ||
-                          (item?.speechDisorders &&
-                            item?.speechDisorders !== '') ||
-                          (item?.firstSymptomsTimeHh &&
-                            item?.firstSymptomsTimeHh !== '') ||
-                          (item?.firstSymptomsTimeMm &&
-                            item?.firstSymptomsTimeMm !== '') ||
-                          (item?.bloodSugarLevel &&
-                            item?.bloodSugarLevel !== '') ||
-                          (item?.bodyTemperature &&
-                            item?.bodyTemperature !== '') ||
-                          (item?.arterialPressureD &&
-                            item?.arterialPressureD !== '') ||
-                          (item?.arterialPressureS &&
-                            item?.arterialPressureS !== '') ||
-                          (item?.patientBodyWeight &&
-                            item?.patientBodyWeight !== '') ||
-                          (item?.patientAge && item?.patientAge !== '') ||
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.linesBlue
-                            : theme.colors.darkGrey
-                        }
+                        $props={checkStatusLine(item, {
+                          ...actionsOfMedicalPersonnel,
+                          ...dischargesFromTheGenitalTract,
+                          ...preventionOfConvulsions,
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemLine>
                       <ItemCircle
-                        $props={
-                          (item?.bloodSugarLevel &&
-                            item?.bloodSugarLevel !== '') ||
-                          (item?.bodyTemperature &&
-                            item?.bodyTemperature !== '') ||
-                          (item?.arterialPressureD &&
-                            item?.arterialPressureD !== '') ||
-                          (item?.arterialPressureS &&
-                            item?.arterialPressureS !== '') ||
-                          (item?.patientBodyWeight &&
-                            item?.patientBodyWeight !== '') ||
-                          (item?.patientAge && item?.patientAge !== '') ||
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.darkGreen
-                            : theme.colors.white
-                        }
+                        $props={checkStatusCircle(item, {
+                          ...actionsOfMedicalPersonnel,
+                          ...dischargesFromTheGenitalTract,
+                          ...preventionOfConvulsions,
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemCircle>
                       <ItemLine
-                        $props={
-                          (item?.bloodSugarLevel &&
-                            item?.bloodSugarLevel !== '') ||
-                          (item?.bodyTemperature &&
-                            item?.bodyTemperature !== '') ||
-                          (item?.arterialPressureD &&
-                            item?.arterialPressureD !== '') ||
-                          (item?.arterialPressureS &&
-                            item?.arterialPressureS !== '') ||
-                          (item?.patientBodyWeight &&
-                            item?.patientBodyWeight !== '') ||
-                          (item?.patientAge && item?.patientAge !== '') ||
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.linesBlue
-                            : theme.colors.darkGrey
-                        }
+                        $props={checkStatusLine(item, {
+                          ...preventionOfConvulsions,
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemLine>
                       <ItemCircle
-                        $props={
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.darkGreen
-                            : theme.colors.white
-                        }
+                        $props={checkStatusCircle(item, {
+                          ...preventionOfConvulsions,
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemCircle>
                       <ItemLine
-                        $props={
-                          (item?.intracranialHemorrhages &&
-                            item?.intracranialHemorrhages !== '') ||
-                          (item?.majorSurgeriesOrSevereInjuries &&
-                            item?.majorSurgeriesOrSevereInjuries !== '') ||
-                          (item?.surgicalInterventions &&
-                            item?.surgicalInterventions !== '') ||
-                          (item?.myocardialInfarction &&
-                            item?.myocardialInfarction !== '') ||
-                          (item?.stroke && item?.stroke !== '') ||
-                          (item?.arterialPuncture &&
-                            item?.arterialPuncture !== '') ||
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.linesBlue
-                            : theme.colors.darkGrey
-                        }
+                        $props={checkStatusLine(item, {
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemLine>
                       <ItemCircle
-                        $props={
-                          (item?.smallOperations &&
-                            item?.smallOperations !== '') ||
-                          (item?.cardiovascularDiseases &&
-                            item?.cardiovascularDiseases !== '') ||
-                          (item?.acuteInfectiousDisease &&
-                            item?.acuteInfectiousDisease !== '') ||
-                          (item?.hemorrhagicStroke &&
-                            item?.hemorrhagicStroke !== '') ||
-                          (item?.convulsions && item?.convulsions !== '') ||
-                          (item?.hemorrhages && item?.hemorrhages !== '') ||
-                          (item?.SACStroke && item?.SACStroke !== '') ||
-                          (item?.ischemicStroke && item?.speechDisorders !== '')
-                            ? theme.colors.darkGreen
-                            : theme.colors.white
-                        }
+                        $props={checkStatusCircle(item, {
+                          ...hypotensiveTreatment,
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
+                      ></ItemCircle>
+                      <ItemLine
+                        $props={checkStatusLine(item, {
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
+                      ></ItemLine>
+                      <ItemCircle
+                        $props={checkStatusCircle(item, {
+                          ...evaluationOfTheConditionOfTheFetus,
+                        })}
                       ></ItemCircle>
                     </ItemStatistic>
                   </ItemContainer>

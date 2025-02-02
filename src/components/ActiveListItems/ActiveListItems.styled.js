@@ -158,7 +158,8 @@ const ItemStatistic = styled.div`
   }
 `;
 const BtnWrap = styled.div`
-width: 100%`;
+  width: 100%;
+`;
 const ItemBtn = styled.button`
   display: flex;
   justify-content: center;
@@ -214,7 +215,7 @@ const ItemCircle = styled.div`
     }
   }
   &:nth-child(3)::after {
-    content: "Начато лечение";
+    content: "Паритет";
     left: 150%;
     top: 0;
     @media screen and (min-width: ${theme.breakpoints.tablet}) {
@@ -223,7 +224,7 @@ const ItemCircle = styled.div`
     }
   }
   &:nth-child(5)::after {
-    content: "Физиологические показатели";
+    content: "Действия персонала";
     font-size: 12px;
     min-width: 120px;
     left: -335%;
@@ -236,7 +237,7 @@ const ItemCircle = styled.div`
     }
   }
   &:nth-child(7)::after {
-    content: "Сбор анамнеза 1/2";
+    content: "Профилактика судорог";
     left: 150%;
     top: 0;
     @media screen and (min-width: ${theme.breakpoints.tablet}) {
@@ -245,12 +246,21 @@ const ItemCircle = styled.div`
     }
   }
   &:nth-child(9)::after {
-    content: "Сбор анамнеза 2/2";
+    content: "Гипотензив ное лечение";
     left: -250%;
     top: 0;
     @media screen and (min-width: ${theme.breakpoints.tablet}) {
       left: -80%;
       top: -50px;
+    }
+  }
+  &:nth-child(11)::after {
+    content: "Оценка состояния плода";
+    left: 150%;
+    top: 0;
+    @media screen and (min-width: ${theme.breakpoints.tablet}) {
+      left: -80%;
+      top: 45px;
     }
   }
 `;
