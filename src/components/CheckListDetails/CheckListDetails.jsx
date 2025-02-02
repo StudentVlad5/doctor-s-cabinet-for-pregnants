@@ -26,7 +26,6 @@ import clipboardCopy from 'clipboard-copy';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { export2Docx } from 'services/exportToWord';
-import 'dayjs/locale/de';
 import {
   actionsOfMedicalPersonnel,
   dischargesFromTheGenitalTract,

@@ -90,12 +90,6 @@ export const ArchiveTable = () => {
           if (!it.placeState) {
             it.placeState = '';
           }
-          if (!it.startTimeAutoHh) {
-            it.startTimeAutoHh = '';
-          }
-          if (!it.startTimeAutoHh) {
-            it.startTimeAutoMm = '';
-          }
         });
         setUniqueChecklists(uniqueIdentifiers);
         setChecklists(unique);
@@ -125,14 +119,11 @@ export const ArchiveTable = () => {
     let peremOfFilter = [];
     peremOfFilter = checklists
       .map(item => {
-        const time = [];
-        time.push(item.startTimeAutoHh, item.startTimeAutoMm);
-
         if (
           item.identifier
             .toString()
             .toLowerCase()
-            .includes(filters['filterChecklist']) &&
+            .includes(filters['filterChecklist'].toString().toLowerCase()) &&
           item.application_number
             ?.split('/')
             .join('')
@@ -145,11 +136,11 @@ export const ArchiveTable = () => {
             ?.split('')
             .join('')
             .toLowerCase()
-            .includes(filters['filterPatientFIO']) &&
-          item.placeState 
+            .includes(filters['filterPatientFIO'].toString().toLowerCase()) &&
+          item.placeState
             ?.toString()
             .toLowerCase()
-            .includes(filters['filterPlaceState']) &&
+            .includes(filters['filterPlaceState'].toString().toLowerCase()) &&
           item.employeeID
             ?.split('')
             .join('')
@@ -159,9 +150,9 @@ export const ArchiveTable = () => {
             .format('DD.MM.YYYY')
             .includes(filters['filterDateStartChecklist'])
         ) {
-          return item; 
+          return item;
         }
-        return null; 
+        return null;
       })
       .filter(item => item !== null);
     setCurrent(1);
